@@ -1,11 +1,19 @@
 #include <iostream>
-#include <cassert>
 
 #include "typelist.hpp"
 #include "yzipper.hpp"
 #include "brainfuck_machine.hpp"
 
 template <typename T> class debug_t;
+
+void print(const tl::null_t&) {}
+
+template <typename T, char c>
+void print(const tl::tl<char_t<c>, T>&)
+{
+    std::cout << c;
+    print(T{});
+}
 
 int main()
 {
@@ -22,7 +30,10 @@ int main()
 
     using BFM = bfm::io_bfm<bfm::make_t, input_list, tl::null_t>;
 
-    debug_t<bfm::run_tm_t<BFM, prog>::output> t;
+    // Print output or state in a compiler error message
+    //debug_t<bfm::run_tm_t<BFM, prog>::output> t;
+
+    print(bfm::run_tm_t<BFM, prog>::output{});
 
     return 0;
 };
