@@ -15,18 +15,23 @@ void print(const tl::tl<char_t<c>, T>&)
     print(T{});
 }
 
+#ifndef INPUT_STR
+#define INPUT_STR ""
+#endif
+
+#ifndef PROGRAM_STR
+// "Hello World" Program
+#define PROGRAM_STR "++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++." \
+                    ".+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.>.+++."
+#endif
+
+struct input_str   { static constexpr const char * str() { return INPUT_STR;   } };
+struct program_str { static constexpr const char * str() { return PROGRAM_STR; } };
+
 int main()
 {
-    using input_list = char_tl_t<'a', 'b', 'c'>;
-    using prog       = char_tl_t<
-        '+', '+', '+', '+', '+', '+', '+', '+', '+', '+', '[', '>', '+', '+',
-        '+', '+', '+', '+', '+', '>', '+', '+', '+', '+', '+', '+', '+', '+',
-        '+', '+', '>', '+', '+', '+', '>', '+', '<', '<', '<', '<', '-', ']',
-        '>', '+', '+', '.', '>', '+', '.', '+', '+', '+', '+', '+', '+', '+',
-        '.', '.', '+', '+', '+', '.', '>', '+', '+', '.', '<', '<', '+', '+',
-        '+', '+', '+', '+', '+', '+', '+', '+', '+', '+', '+', '+', '+', '.',
-        '>', '.', '+', '+', '+', '.', '-', '-', '-', '-', '-', '-', '.', '-',
-        '-', '-', '-', '-', '-', '-', '-', '.', '>', '+', '.', '>', '.'>;
+    using input_list = string_list_t<input_str>;
+    using prog       = string_list_t<program_str>;
 
     using BFM = bfm::io_bfm<bfm::make_t, input_list, tl::null_t>;
 
