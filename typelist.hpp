@@ -38,24 +38,23 @@ using append_t = typename append<TList, T>::type;
 
 
 template <class TList>
-struct head;
+struct list_content;
 template <class Head, class Tail>
-struct head<tl<Head, Tail>> { using type = Head; };
+struct list_content<tl<Head, Tail>> {
+    using head = Head;
+    using tail = Tail;
+};
 template <>
-struct head<null_t> { using type = null_t; };
+struct list_content<null_t> {
+    using head = null_t;
+    using tail = null_t;
+};
 
 template <class TList>
-using head_t = typename head<TList>::type;
+using head_t = typename list_content<TList>::head;
 
 template <class TList>
-struct tail;
-template <class Head, class Tail>
-struct tail<tl<Head, Tail>> { using type = Tail; };
-template <>
-struct tail<null_t> { using type = null_t; };
-
-template <class TList>
-using tail_t = typename tail<TList>::type;
+using tail_t = typename list_content<TList>::tail;
 
 
 } // namespace tl
