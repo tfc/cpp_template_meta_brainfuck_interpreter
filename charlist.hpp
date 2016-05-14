@@ -22,14 +22,19 @@ using char_tl_t = typename char_tl<chars...>::type;
 template <class Str, size_t Pos, char C>
 struct string_list;
 
+template <class Str, size_t Pos, char C>
+struct string_list {
+    using next_piece = typename string_list<
+                            Str,
+                            Pos + 1,
+                            Str::str()[Pos + 1]
+                        >::type;
+    using type = tl::tl<char_t<C>, next_piece>;
+};
+
 template <class Str, size_t Pos>
 struct string_list<Str, Pos, '\0'> {
     using type = tl::null_t;
-};
-
-template <class Str, size_t Pos, char C>
-struct string_list {
-    using type = tl::tl<char_t<C>, typename string_list<Str, Pos + 1, Str::str()[Pos + 1]>::type>;
 };
 
 template <class Str>
