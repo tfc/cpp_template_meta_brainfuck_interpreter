@@ -6,15 +6,6 @@
 
 template <typename T> class debug_t;
 
-void print(const tl::null_t&) {}
-
-template <typename T, char c>
-void print(const tl::tl<char_t<c>, T>&)
-{
-    std::cout << c;
-    print(T{});
-}
-
 #ifndef INPUT_STR
 #define INPUT_STR ""
 #endif
@@ -35,10 +26,12 @@ int main()
 
     using BFM = bfm::io_bfm<bfm::make_t, input_list, tl::null_t>;
 
-    // Print output or state in a compiler error message
-    //debug_t<bfm::run_tm_t<BFM, prog>::output> t;
+    using output = bfm::run_tm_t<BFM, prog>::output;
 
-    print(bfm::run_tm_t<BFM, prog>::output{});
+    // Print output or state in a compiler error message
+    //debug_t<output> t;
+
+    puts(tl_to_varlist<output>::str());
 
     return 0;
 };
