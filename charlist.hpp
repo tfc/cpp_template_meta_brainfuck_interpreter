@@ -40,3 +40,19 @@ struct string_list<Str, Pos, '\0'> {
 template <class Str>
 using string_list_t = typename string_list<Str, 0, Str::str()[0]>::type;
 
+template <typename typelist, char ... chars>
+struct tl_to_varlist;
+
+template <char c, typename restlist, char ... chars>
+struct tl_to_varlist<tl::tl<char_t<c>, restlist>, chars...>
+    : public tl_to_varlist<restlist, chars..., c>
+{ };
+
+template <char ... chars>
+struct tl_to_varlist<tl::null_t, chars...> {
+    static const char * const str() {
+        static constexpr const char string[] = {chars..., '\0'};
+        return string;
+    }
+};
+
