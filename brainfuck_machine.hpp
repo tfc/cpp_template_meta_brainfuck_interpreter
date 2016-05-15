@@ -2,39 +2,39 @@
 
 #include "traits.hpp"
 #include "typelist.hpp"
-#include "yzipper.hpp"
+#include "tape.hpp"
 #include "charlist.hpp"
 
 namespace bfm {
 
-template <class YZ> using yz_move_left_t  = ::yz::move_left_t<YZ>;
-template <class YZ> using yz_move_right_t =::yz::move_right_t<YZ>;
-template <class YZ> using yz_get_t = ::yz::get_t<YZ>;
-template <class YZ, class T> using yz_set_t = ::yz::set_t<YZ, T>;
-template <class T> using yz_make_t  = ::yz::make_t<T>;
+template <class Tape> using tt_move_left_t  = ::tt::move_left_t<Tape>;
+template <class Tape> using tt_move_right_t =::tt::move_right_t<Tape>;
+template <class Tape> using tt_get_t = ::tt::get_t<Tape>;
+template <class Tape, class T> using tt_set_t = ::tt::set_t<Tape, T>;
+template <class T> using tt_make_t  = ::tt::make_t<T>;
 
-template <class YZipper>
+template <class Tape>
 struct null_to_0;
 template <class LList, class RList>
-struct null_to_0<::yz::yzipper<LList, ::tl::null_t, RList>> {
-    using type = yz::yzipper<LList, ::char_t<0>, RList>;
+struct null_to_0<::tt::tape<LList, ::tl::null_t, RList>> {
+    using type = tt::tape<LList, ::char_t<0>, RList>;
 };
-template <class YZipper> struct null_to_0 { using type = YZipper; };
-template <class YZ> using null_to_0_t = typename null_to_0<YZ>::type;
+template <class Tape> struct null_to_0 { using type = Tape; };
+template <class Tape> using null_to_0_t = typename null_to_0<Tape>::type;
 
-template <typename YZipper>
+template <typename Tape>
 struct machine {
-    using move_left  = machine<null_to_0_t<yz_move_left_t<YZipper>>>;
-    using move_right = machine<null_to_0_t<yz_move_right_t<YZipper>>>;
+    using move_left  = machine<null_to_0_t<tt_move_left_t<Tape>>>;
+    using move_right = machine<null_to_0_t<tt_move_right_t<Tape>>>;
 
-    using get = yz_get_t<YZipper>;
+    using get = tt_get_t<Tape>;
     template <char value>
-    using set = machine<yz_set_t<YZipper, ::char_t<value>>>;
+    using set = machine<tt_set_t<Tape, ::char_t<value>>>;
 
     static const constexpr char value {get::value};
 
-    using increment = machine<yz_set_t<YZipper, ::char_t<value + 1>>>;
-    using decrement = machine<yz_set_t<YZipper, ::char_t<value - 1>>>;
+    using increment = machine<tt_set_t<Tape, ::char_t<value + 1>>>;
+    using decrement = machine<tt_set_t<Tape, ::char_t<value - 1>>>;
 };
 
 template <typename Machine>
@@ -52,7 +52,7 @@ using increment_t = typename Machine::increment;
 template <typename Machine>
 using decrement_t = typename Machine::decrement;
 
-using make_t = machine<yz_make_t<::char_t<0>>>;
+using make_t = machine<tt_make_t<::char_t<0>>>;
 
 template <class BFM, class Inlist, class OutList>
 struct io_bfm {

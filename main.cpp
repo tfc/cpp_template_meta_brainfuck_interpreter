@@ -1,7 +1,6 @@
 #include <iostream>
 
-#include "typelist.hpp"
-#include "yzipper.hpp"
+#include "charlist.hpp"
 #include "brainfuck_machine.hpp"
 
 template <typename T> class debug_t;
