@@ -84,35 +84,35 @@ struct find_brace<::tl::tl<::char_t<C>, InList>, OutList, N>
 
 
 template <class IOBFM, char InputChar>
-struct interprete_step;
+struct interpret_step;
 
 template <class BFM, class InList, class OutList>
-struct interprete_step<io_bfm<BFM, InList, OutList>, '.'> {
+struct interpret_step<io_bfm<BFM, InList, OutList>, '.'> {
     using type = io_bfm<BFM, InList, ::tl::append_t<OutList, get_t<BFM>>>;
 };
 template <class BFM, class InList, class OutList>
-struct interprete_step<io_bfm<BFM, InList, OutList>, ','> {
+struct interpret_step<io_bfm<BFM, InList, OutList>, ','> {
     using type = io_bfm<set_t<BFM, tl::head_t<InList>::value>, tl::tail_t<InList>, OutList>;
 };
 template <class BFM, class InList, class OutList>
-struct interprete_step<io_bfm<BFM, InList, OutList>, '+'> {
+struct interpret_step<io_bfm<BFM, InList, OutList>, '+'> {
     using type = io_bfm<increment_t<BFM>, InList, OutList>;
 };
 template <class BFM, class InList, class OutList>
-struct interprete_step<io_bfm<BFM, InList, OutList>, '-'> {
+struct interpret_step<io_bfm<BFM, InList, OutList>, '-'> {
     using type = io_bfm<decrement_t<BFM>, InList, OutList>;
 };
 template <class BFM, class InList, class OutList>
-struct interprete_step<io_bfm<BFM, InList, OutList>, '<'> {
+struct interpret_step<io_bfm<BFM, InList, OutList>, '<'> {
     using type = io_bfm<move_left_t<BFM>, InList, OutList>;
 };
 template <class BFM, class InList, class OutList>
-struct interprete_step<io_bfm<BFM, InList, OutList>, '>'> {
+struct interpret_step<io_bfm<BFM, InList, OutList>, '>'> {
     using type = io_bfm<move_right_t<BFM>, InList, OutList>;
 };
 
 template <class IOBFM, char InputChar>
-using interprete_step_t = typename interprete_step<IOBFM, InputChar>::type;
+using interpret_step_t = typename interpret_step<IOBFM, InputChar>::type;
 
 template <class IOBFM, class ProgList>
 struct run_tm;
@@ -129,7 +129,7 @@ struct run_tm<IOBFM, ::tl::tl<::char_t<'['>, RestProg>> {
 };
 template <class IOBFM, char Command, class RestProg>
 struct run_tm<IOBFM, ::tl::tl<::char_t<Command>, RestProg>> {
-    using type = typename run_tm<interprete_step_t<IOBFM, Command>, RestProg>::type;
+    using type = typename run_tm<interpret_step_t<IOBFM, Command>, RestProg>::type;
 };
 template <class IOBFM>
 struct run_tm<IOBFM, ::tl::null_t> {
