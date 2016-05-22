@@ -33,8 +33,8 @@ struct machine {
 
     static const constexpr char value {get::value};
 
-    using increment = machine<tt_set_t<Tape, ::char_t<value + 1>>>;
-    using decrement = machine<tt_set_t<Tape, ::char_t<value - 1>>>;
+    using increment = set<value + 1>;
+    using decrement = set<value - 1>;
 };
 
 template <typename Machine>
