@@ -10,10 +10,12 @@ struct tl
     using tail = U;
 };
 
+template <class ... Ts> struct make;
+
 template <class T, class ... REST>
-struct make { using type = tl<T, typename make<REST...>::type>; };
-template <class T>
-struct make<T> { using type = tl<T, null_t>; };
+struct make<T, REST...> { using type = tl<T, typename make<REST...>::type>; };
+template <>
+struct make<> { using type = null_t; };
 
 template <class ... Ts>
 using make_t = typename make<Ts...>::type;
