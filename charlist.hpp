@@ -50,6 +50,8 @@ struct tl_to_varlist<tl::tl<char_t<c>, restlist>, chars...>
 
 template <char ... chars>
 struct tl_to_varlist<tl::null_t, chars...> {
+    using list = char_tl<chars...>;
+
     static const char * const str() {
         static constexpr const char string[] = {chars..., '\0'};
         return string;

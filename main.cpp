@@ -28,7 +28,7 @@ int main()
     using output = bfm::run_tm_t<BFM, prog>::output;
 
     // Print output or state in a compiler error message
-    //debug_t<output> t;
+    //debug_t<tl_to_varlist<output>::list> t;
 
     puts(tl_to_varlist<output>::str());
 
