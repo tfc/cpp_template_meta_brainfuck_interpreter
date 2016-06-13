@@ -1,7 +1,11 @@
 #pragma once
 
 namespace tl {
-struct null_t {};
+
+struct null_t {
+    using head = null_t;
+    using tail = null_t;
+};
 
 template <class T, class U>
 struct tl
@@ -9,6 +13,13 @@ struct tl
     using head = T;
     using tail = U;
 };
+
+template <class TList>
+using head_t = typename TList::head;
+
+template <class TList>
+using tail_t = typename TList::tail;
+
 
 template <class ... Ts> struct make;
 
@@ -35,26 +46,6 @@ struct append<tl<Head, Tail>, T>
 
 template <class TList, class T>
 using append_t = typename append<TList, T>::type;
-
-
-template <class TList>
-struct list_content;
-template <class Head, class Tail>
-struct list_content<tl<Head, Tail>> {
-    using head = Head;
-    using tail = Tail;
-};
-template <>
-struct list_content<null_t> {
-    using head = null_t;
-    using tail = null_t;
-};
-
-template <class TList>
-using head_t = typename list_content<TList>::head;
-
-template <class TList>
-using tail_t = typename list_content<TList>::tail;
 
 
 } // namespace tl
