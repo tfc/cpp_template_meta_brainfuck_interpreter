@@ -1,6 +1,6 @@
 # A C++ Template Meta Brainfuck Interpreter
 
-For practise reasons, i implemented this Brainfuck Interpreter on a long train ride.
+For exercise reasons, i implemented this Brainfuck Interpreter on a long train ride.
 It works completely at compile time, as it is implemented in a purely functional way, expressed in C++ Template Language.
 
 The program and user input is provided via type lists, and the output is a type list again.
